@@ -16,7 +16,6 @@ class StarController extends Controller
      */
     public function index()
     {
-        error_log('got into index');
         $stars = Star::all();
         return Inertia::render('Star/List',['stars' => $stars]);
     }
@@ -26,7 +25,6 @@ class StarController extends Controller
      */
     public function create()
     {
-        error_log('got into create');
         return Inertia::render('Star/Edit', ['star' => NULL]);
     }
 
@@ -35,7 +33,6 @@ class StarController extends Controller
      */
     public function store(Request $request)
     {
-        error_log('got into store');
         $star = new Star;
         $star->nom = $request->input('nom');
         $star->prenom = $request->input('prenom');
@@ -48,12 +45,8 @@ class StarController extends Controller
      */
     public function show(Request $request)
     {
-        error_log('got into show');
         $id = $request->query('id');
         $star = Star::where('id',$id);
-        error_log('got an id: $id');
-        error_log('got a star id: $star');
-        error_log($star);
         return Inertia::render('Star/Display', ['star' => $star]);
     }
 
