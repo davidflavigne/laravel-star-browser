@@ -1,3 +1,4 @@
+### INSTALLATION
 - Prérequis: php (php-curl, php-mysql), node, npm, composer up-to-date.
 - Cloner le projet
 ```bash
@@ -33,3 +34,4 @@ php artisan serve
 #En parallèle dans un autre terminal
 npm run dev
 ```
+- Par défaut, le site est accessible sur `http://localhost:8000/dashboard`
