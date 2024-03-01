@@ -43,30 +43,27 @@ class StarController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
+    public function show(Request $request, string $id)
     {
-        $id = $request->query('id');
-        $star = Star::where('id',$id);
+        $star = Star::where('id',$id)->get();
         return Inertia::render('Star/Display', ['star' => $star]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request)
+    public function edit(Request $request, string $id)
     {   
-        $id = $request->query('id');
-        $star = Star::where('id',$id);
+        $star = Star::where('id',$id)->get();
         return Inertia::render('Star/Edit', ['star' => $star]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, string $id)
     {
-        $id = $request->query('id');
-        $star = Star::where('id',$id);
+        $star = Star::where('id',$id)->get();
         if($request->input('nom')) $star->nom = $request->input('nom');
         if($request->input('prenom')) $star->prenom = $request->input('prenom');
         if($request->input('description')) $star->description = $request->input('description');
@@ -76,12 +73,11 @@ class StarController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request, string $id): RedirectResponse
     {
-        $id = $request->query('id');
-        $star = Star::where('id',$id);
+        $star = Star::where('id',$id)->get();
         $star->delete();
 
-        return Redirect::to('/');
+        return Redirect::to('/dashboard');
     }
 }
