@@ -10,19 +10,43 @@ const props = defineProps<{
 const inStar = reactive({
     nom: props.star?props.star.nom:'',
     prenom: props.star?props.star.prenom:'',
-    description: props.star?props.star.description:''
+    description: props.star?props.star.description:'',
+    image: null
 });
 
 const onSubmit = ()=>{
-    if(props.star) axios.patch('http://localhost:8000/api/star/'+props.star.id+'/update',inStar);
-    else axios.post('http://localhost:8000/api/star/save',inStar)
+    let formData = new FormData();
+    formData.append('nom',inStar.nom);
+    formData.append('prenom',inStar.prenom);
+    formData.append('description',inStar.description);
+    formData.append('image',inStar.image);
+    
+    if(props.star){ 
+        formData.append('_method', 'put');
+        axios.post('http://localhost:8000/api/star/'+props.star.id+'/update',formData).then(()=>{
+            window.location.href = 'http://localhost:8000/dashboard'
+        });
+    }
+    else {
+        axios.post('http://localhost:8000/api/star/save',formData).then(()=>{
+            window.location.href = 'http://localhost:8000/dashboard'
+        });
+    }
+}
+
+const onCancel = ()=>{
+    window.location.href = 'http://localhost:8000/dashboard'
+}
+
+const handleFileUpload = (event)=>{
+    inStar.image = event.target.files[0];
 }
 
 </script>
 
 <template>
     <Head title="Dashboard" />
-    <GuestLayout>
+    <GuestLayout :imagePath="star?.imagePath">
         <form v-on:submit.prevent="onSubmit">
             <div class="space-y-12">
                 <div class="border-b border-gray-900/10 pb-12">
@@ -82,11 +106,17 @@ const onSubmit = ()=>{
                                     <div class="mt-4 flex text-sm leading-6 text-gray-600">
                                     <label for="photo" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
                                         <span>Téléverser un fichier</span>
-                                        <input id="photo" name="photo" type="file" class="sr-only" />
+                                        <input 
+                                            id="photo" 
+                                            name="photo" 
+                                            type="file" 
+                                            class="sr-only" 
+                                            @change="handleFileUpload( $event )"
+                                        />
                                     </label>
                                     <p class="pl-1">ou glisser-déposer</p>
                                     </div>
-                                    <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF jusqu'à 10MB</p>
+                                    <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF</p>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +126,7 @@ const onSubmit = ()=>{
             </div>
 
             <div class="mt-6 flex items-center justify-end gap-x-6">
-                <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Annuler</button>
+                <button type="button" @click="onCancel" class="text-sm font-semibold leading-6 text-gray-900">Annuler</button>
                 <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Enregistrer</button>
             </div>
         </form>

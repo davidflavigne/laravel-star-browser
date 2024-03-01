@@ -11,12 +11,17 @@ use Inertia\Response;
 
 class StarController extends Controller
 {
+    private function get_image_url($star){
+        $star->imagePath = asset($star->imagePath);
+        return $star;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $stars = Star::all();
+        $stars = Star::all()->all();
+        $stars = array_map([$this,'get_image_url'],$stars);
         return Inertia::render('Star/List',['stars' => $stars]);
     }
 
@@ -37,7 +42,9 @@ class StarController extends Controller
         $star->nom = $request->input('nom');
         $star->prenom = $request->input('prenom');
         $star->description = $request->input('description');
-        $star->imagePath = '';
+        $imagename = $request->file('image')->getClientOriginalName();
+        $request->file('image')->storeAs('public/images',$imagename);
+        $star->imagePath = 'storage/images/'.$imagename;
         $star->save();
     }
 
@@ -61,17 +68,23 @@ class StarController extends Controller
         if($request->input('nom')) $star[0]->nom = $request->input('nom');
         if($request->input('prenom')) $star[0]->prenom = $request->input('prenom');
         if($request->input('description')) $star[0]->description = $request->input('description');
+
+        if($request->file('image')){
+            error_log('#NOCOMMIT - has file!');
+            $imagename = $request->file('image')->getClientOriginalName();
+            $request->file('image')->storeAs('public/images',$imagename);
+            $star[0]->imagePath = 'storage/images/'.$imagename;
+        }
+
         $star[0]->save();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, string $id): RedirectResponse
+    public function destroy(Request $request, string $id)
     {
         $star = Star::where('id',$id)->get();
-        $star->delete();
-
-        return Redirect::to('/dashboard');
+        $star[0]->delete();
     }
 }

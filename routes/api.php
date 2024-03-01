@@ -21,4 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::post('/star/save', [StarController::class, 'store'])->name('star.store');
-Route::patch('/star/{id}/update', [StarController::class, 'update'])->name('star.update');
+Route::put('/star/{id}/update', [StarController::class, 'update'])->name('star.update');
+Route::delete('/star/{id}', [StarController::class, 'destroy'])->name('star.destroy');
