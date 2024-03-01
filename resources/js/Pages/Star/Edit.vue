@@ -2,6 +2,7 @@
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { ref,reactive, toRefs } from 'vue';
+import { axioss } from 'axios';
 
 const props = defineProps<{
     star: Object;
@@ -13,7 +14,8 @@ const inStar = reactive({
 });
 
 const onSubmit = ()=>{
-    console.log('#NOCOMMIT - ');
+    if(props.star) axios.patch('http://localhost:8000/api/star/'+props.star.id+'/update',inStar);
+    else axios.post('http://localhost:8000/api/star/save',inStar)
 }
 
 </script>

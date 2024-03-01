@@ -37,6 +37,7 @@ class StarController extends Controller
         $star->nom = $request->input('nom');
         $star->prenom = $request->input('prenom');
         $star->description = $request->input('description');
+        $star->imagePath = '';
         $star->save();
     }
 
@@ -56,10 +57,11 @@ class StarController extends Controller
     public function update(Request $request, string $id)
     {
         $star = Star::where('id',$id)->get();
-        if($request->input('nom')) $star->nom = $request->input('nom');
-        if($request->input('prenom')) $star->prenom = $request->input('prenom');
-        if($request->input('description')) $star->description = $request->input('description');
-        $star->save();
+        //id unique, on récupère donc 1 seul élément
+        if($request->input('nom')) $star[0]->nom = $request->input('nom');
+        if($request->input('prenom')) $star[0]->prenom = $request->input('prenom');
+        if($request->input('description')) $star[0]->description = $request->input('description');
+        $star[0]->save();
     }
 
     /**

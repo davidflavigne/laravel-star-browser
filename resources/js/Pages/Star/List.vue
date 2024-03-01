@@ -33,10 +33,11 @@ const selected = ref('star-0');
         <div id="default-tab-content" data-tab-content="" class="w-full"> 
             <div v-for="(star,index) in stars" 
                 :class="{hidden: selected!='star-'+index}" 
-                class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800" 
+                class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800 flex flex-col justify-center" 
                 :id="'star-'+index" 
                 role="tabpanel">
-                <p class="text-sm text-gray-500 dark:text-gray-400">{{star.description}}</p>
+                <span class="ml-1 text-center">{{star.prenom}} {{star.nom}}</span>
+                <p class="text-sm text-gray-500 dark:text-gray-400 text-justify">{{star.description}}</p>
             </div>
         </div>
     </GuestLayout>

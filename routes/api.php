@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StarController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::post('/star/save', [StarController::class, 'store'])->name('star.store');
+Route::patch('/star/{id}/update', [StarController::class, 'update'])->name('star.update');
