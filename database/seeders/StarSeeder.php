@@ -12,6 +12,17 @@ class StarSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        \App\Models\star::factory()->create([
+            'nom' => 'Lagaffe',
+            'prenom' => 'Gaston',
+            'imagePath' => '',
+            'description' => ''
+        ]);
+        \App\Models\star::factory()->create([
+            'nom' => 'Haddock',
+            'prenom' => 'Archibald',
+            'imagePath' => '',
+            'description' => ''
+        ]);
     }
 }
