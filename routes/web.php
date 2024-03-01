@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StarController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,14 +25,10 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+Route::get('/dashboard', [StarController::class, 'index'])->name('star.index');
+Route::get('/star/{id}', [StarController::class, 'show'])->name('star.show');
+Route::get('/star/create', [StarController::class, 'edit'])->name('star.create');
+Route::get('/star/{id}/edit', [StarController::class, 'edit'])->name('star.edit');
+Route::delete('/star/{id}', [StarController::class, 'destroy'])->name('star.destroy');
 
 require __DIR__.'/auth.php';
