@@ -26,8 +26,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [StarController::class, 'index'])->name('star.index');
-Route::get('/star/{id}', [StarController::class, 'show'])->name('star.show');
-Route::get('/star/create', [StarController::class, 'edit'])->name('star.create');
+Route::get('/star/create', [StarController::class, 'create'])->name('star.create');
 Route::get('/star/{id}/edit', [StarController::class, 'edit'])->name('star.edit');
 Route::delete('/star/{id}', [StarController::class, 'destroy'])->name('star.destroy');
 

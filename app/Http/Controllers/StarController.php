@@ -41,21 +41,13 @@ class StarController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Request $request, string $id)
-    {
-        $star = Star::where('id',$id)->get();
-        return Inertia::render('Star/Display', ['star' => $star]);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Request $request, string $id)
     {   
         $star = Star::where('id',$id)->get();
-        return Inertia::render('Star/Edit', ['star' => $star]);
+        //id unique, on récupère donc 1 seul élément
+        return Inertia::render('Star/Edit', ['star' => $star[0]]);
     }
 
     /**
